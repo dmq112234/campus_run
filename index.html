@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>智能校园跑 · 均衡排班版</title>
+    <title>校园跑任务智能规划系统</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -183,7 +183,7 @@
 <body>
 <div class="container">
     <div class="hero">
-        <h1>🏃‍♂️ 智能校园跑 · 均衡排班版</h1>
+        <h1>🏃‍♂️ 校园跑任务智能规划系统</h1>
         <div class="hero-sub">按「4天需跑次数」分配，优先选评分最高的日子跑步，避免后期集中硬跑</div>
         
         <div class="weather-panel" id="weatherPanel">
@@ -253,11 +253,6 @@
                         <input type="number" id="runScoreLine" min="1" max="9" step="0.1" value="6.0">
                         <span>≥此分数为推荐跑步日</span>
                     </div>
-                    <div class="pref-item">
-                        <span>🌤️ 天气权重放大倍数</span>
-                        <input type="number" id="weatherWeightMult" min="1" max="3" step="0.1" value="2.0">
-                        <span>天气越好、总分越低，优先级越高</span>
-                    </div>
                 </div>
             </div>
 
@@ -321,7 +316,6 @@
     const decaySlider = document.getElementById("fatigueDecay");
     const decayValDisplay = document.getElementById("decayValDisplay");
     const runScoreLineInput = document.getElementById("runScoreLine");
-    const weatherWeightMultInput = document.getElementById("weatherWeightMult");
 
     collapseHeader.addEventListener('click', () => {
         collapseContent.classList.toggle('show');
@@ -473,7 +467,6 @@
         courseHourThreshold = parseFloat(courseThresholdInput.value) || 4.0;
         fatigueDecayRate = parseFloat(decaySlider.value);
         runScoreLine = parseFloat(runScoreLineInput.value) || 6.0;
-        weatherWeightMult = parseFloat(weatherWeightMultInput.value) || 2.0;
         let { rem: totalRemain, days: totalDays, windowNeed } = updateStats();
 
         let forceAllRun = (totalRemain === totalDays) && (totalRemain > 0);
@@ -567,7 +560,7 @@
         let html = `<div class="dp-card">
             <div class="rec-header">
                 <span><strong>未来${windowN}天 · 均衡排班（需跑${Math.min(windowNeed, windowN)}次）</strong></span>
-                <span class="dp-badge">判定分数线：≥${runScoreLine}分 推荐跑步 | 天气权重已放大${weatherWeightMult}倍</span>
+                <span class="dp-badge">判定分数线：≥${runScoreLine}分 推荐跑步</span>
             </div>`;
         res.forEach(item => {
             let runTag = item.run ? "<span style='color:#059669'>✅ 安排跑步</span>" : "<span style='color:#6b7280'>❌ 休息</span>";
